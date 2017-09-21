@@ -1,0 +1,44 @@
+<h3>File Download</h3>
+Start Time: <%= @start_time %> <br/>
+End Time: <%= @end_time %><br/>
+Replication Time : <%= @total_time %> ms <br/>
+File : <a href="<%= @user_upload.file %>">download file</a>
+<br/><br/>
+<% if @user_upload.rc_type == 4 %>
+  <strong>Greedy Retrival Path</strong>
+  <br/><br/>
+  <% @user_upload.fragments.each do |fragments| %>
+    <a href="#" class="btn btn-mini btn-info"><%= fragments.node.name %></a> -->
+  <% end %>
+  File
+<% end %>
+
+<% if @user_upload.rc_type == 4 %>
+
+    <strong>Retrival Path</strong>
+    <br/><br/>
+    <% @user_upload.fragments.each do |fragments| %>
+      <a href="#" class="btn btn-mini btn-info"><%= fragments.node.name %></a> -->
+    <% end %>
+    File
+
+  <br/>
+  <br/>
+<% end %>
+
+
+<% if @user_upload.rc_type == 3 %>
+
+    <strong>T-coloring Approach</strong>
+    <br/><br/>
+    <% @user_upload.fragments.each do |p_fragments| %>
+      <% @user_upload.fragments.each do |c_fragments| %>
+        <% if p_fragments.id != c_fragments.id && p_fragments.id > c_fragments.id %>
+          <%= p_fragments.node.name %>  --<b> <%= Node.nw_cost_bw_servers(p_fragments.node, c_fragments.node) %> </b>-- >  <%= c_fragments.node.name %><br/>
+        <% end %>
+      <% end %>
+    <% end %>
+  <br/>
+  <br/>
+<% end %>
+

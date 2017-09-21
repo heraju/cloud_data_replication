@@ -1,0 +1,42 @@
+<h1>Server info</h1>
+<p id="notice"><%= notice %></p>
+<dl>
+<p>
+  <strong>Name:</strong>
+  <%= @node.name %>
+</p>
+
+<p>
+  <strong>Cost:</strong>
+  <%= @node.cost %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @node.location %>
+</p>
+
+<h5>Fragment details</h5>
+<table class="table">
+  <thead>
+    <tr>
+      <th>User name</th>
+      <th>File</th>
+      <th>File size</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @node.fragments.each do |fragments| %>
+      <tr>
+        <td><%= fragments.user_upload.user.email %></td>
+        <td><a href="<%= fragments.fragment %>"><%= fragments.fragment.file.filename %></a></td>
+        <td><%= number_to_human_size(fragments.fragment.file.size)  %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Edit', edit_node_path(@node) %> |
+<%= link_to 'Back', nodes_path %>
+</dl>

@@ -1,0 +1,37 @@
+<h1>Downloads</h1>
+<%= link_to 'New Download', new_download_path, class: "btn btn-success navbar-btn"  %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>User Requesting</th>
+      <th>File</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @downloads.each do |download| %>
+      <tr>
+        <td><%= download.user.email %></td>
+        <td><%= download.user_upload.file.file.filename %></td>
+        <td><%= download.user_upload.rc_type_name %></td>
+        <td><%= download.description %></td>
+        <% if current_user.admin? %>
+          <td><%= link_to 'Approve', approve_download_path(download), data: { confirm: 'Are you sure?' } %></td>
+        <% else %>
+          <% if download.apporve.nil? %>
+           <td> Awaiting Approval </td>
+          <% else %>
+          <td><%= link_to 'Download', download_user_upload_path(download.user_upload), class: "btn btn-mini btn-success"  %></td>
+          <% end %>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+

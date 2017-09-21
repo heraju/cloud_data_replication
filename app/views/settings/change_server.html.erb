@@ -1,0 +1,8 @@
+<h5>Change Server</h5>
+<p id="notice"><%= notice %></p>
+<%= form_tag("new_change_server", method: "post") do %>
+  <%= label_tag(:q, "Server:") %>
+  <%= select_tag(:server_id, options_for_select(@servers.map{|s| [s.name, s.id]}, current_server.id)) %>
+  <br/>
+  <%= submit_tag("Change") %>
+<% end %>

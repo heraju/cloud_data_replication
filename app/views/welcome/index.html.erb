@@ -1,0 +1,36 @@
+<div>
+  <H3>Data Replication</H3>
+  <%= link_to 'New upload', new_user_upload_path , class: "btn btn-success navbar-btn pull-right" %>
+</div>
+<p>Welcome data replication simulator.</p>
+<br/>
+<h4>Types of implementation</h4>
+<ul class="nav nav-tabs">
+  <li><a href="#lmm" data-toggle="tab">LMM</a></li>
+  <li><a href="#gmm" data-toggle="tab">GMM</a></li>
+  <li><a href="#drops" data-toggle="tab">DROPS</a></li>
+  <li><a href="#drpa" data-toggle="tab">DRPA</a></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="lmm">
+    <h5>Local Min to Min</h5>
+  </div>
+  <div class="tab-pane" id="gmm">
+    <h5>Global Min to Min</h5>
+  </div>
+  <div class="tab-pane" id="drops">
+    <h5>DROPS</h5>
+  </div>
+  <div class="tab-pane" id="drpa">
+    <h5>DRPA</h5>
+  </div>
+</div>
+
+<script>
+  $(function () {
+    $('#myTab a:last').tab('show');
+  })
+  $('#myTab a[href="#lmm"]').tab('show'); // Select tab by name
+
+</script>

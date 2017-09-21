@@ -1,0 +1,31 @@
+<h3>Uploads</h3>
+<%= link_to 'New Upload', new_user_upload_path , class: "btn btn-success navbar-btn" %>
+<table class="table">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>File</th>
+      <th>RC Type</th>
+      <th>Uploaded Server</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_uploads.each do |user_upload| %>
+      <tr>
+        <td><%= user_upload.user.email %></td>
+        <td><a href="<%= user_upload.file %>"><%= user_upload.file.file.filename %></a></td>
+        <td><%= user_upload.rc_type_name %></td>
+        <td><%= user_upload.node.name %></td>
+        <td><%= link_to 'Show', user_upload, class: "btn btn-mini btn-warning"  %>
+            <%#= link_to 'Replicate', download_user_upload_path(user_upload), class: "btn btn-mini btn-success"  %>
+        </td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+

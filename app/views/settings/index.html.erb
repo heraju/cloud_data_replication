@@ -1,0 +1,26 @@
+<h1>Settings</h1>
+<p id="notice"><%= notice %></p>
+<%= link_to 'Generate DRPA - Cache', drpa_cache_settings_path , class: "btn btn-success navbar-btn pull-right" %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Node count</th>
+      <th>Fragment size</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @settings.each do |setting| %>
+      <tr>
+        <td><%= setting.node_count %></td>
+        <td><%= setting.fragment_size %></td>
+        <td><%= link_to 'Edit', edit_setting_path(setting) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+

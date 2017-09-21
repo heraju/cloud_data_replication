@@ -1,0 +1,96 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @user_upload.user.email %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @user_upload.rc_type_name %>
+</p>
+
+<p>
+  <strong>Uploaded Server:</strong>
+  <%= @user_upload.node.name %>
+</p>
+
+<p>
+  <strong>File:</strong>
+  <a href="<%= @user_upload.file %>"><%= @user_upload.file.file.filename %></a>
+</p>
+
+<p>
+  <strong>File size:</strong>
+  <%= number_to_human_size(@user_upload.file.file.size)  %>
+</p>
+<br/><br/>
+
+<% if @user_upload.rc_type == 4 %>
+
+    <strong>Retrival Path</strong>
+    <br/><br/>
+    <% @user_upload.fragments.each do |fragments| %>
+      <a href="#" class="btn btn-mini btn-info"><%= fragments.node.name %></a> -->
+    <% end %>
+    File
+
+  <br/>
+  <br/>
+<% end %>
+
+
+<% if @user_upload.rc_type == 3 %>
+
+    <strong>T-coloring Approach</strong>
+    <br/><br/>
+    <% @user_upload.fragments.each do |p_fragments| %>
+      <% @user_upload.fragments.each do |c_fragments| %>
+        <% if p_fragments.id != c_fragments.id && p_fragments.id > c_fragments.id %>
+          <%= p_fragments.node.name %>  --<b> <%= Node.nw_cost_bw_servers(p_fragments.node, c_fragments.node) %> </b>-- >  <%= c_fragments.node.name %><br/>
+        <% end %>
+      <% end %>
+    <% end %>
+  <br/>
+  <br/>
+<% end %>
+
+<h5><strong>Fragment details</strong></h5>
+<p>
+  Total Fragments :
+  <%= @user_upload.fragments.count %>
+</p>
+
+<br/>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Server Name</th>
+      <th>Server Location</th>
+      <th>Cost From Upload server</th>
+      <th>Fragment</th>
+      <th>File</th>
+      <th>File size</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_upload.fragments.each do |fragments| %>
+      <tr>
+        <td><%= fragments.node.name %></td>
+        <td><%= fragments.node.location %></td>
+        <td><%= fragments.retrival_cost %></td>
+        <td><%= fragments.order_id %></td>
+        <td><a href="<%= fragments.fragment %>"><%= fragments.fragment.file.filename %></a></td>
+        <td><%= number_to_human_size(fragments.fragment.file.size)  %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if current_user.admin? %>
+  <%= link_to 'Process Request Again', process_request_user_upload_path(@user_upload), class: "btn btn-mini btn-success"  %>
+<% end %>
+<br/><br/>
+<%= link_to 'Back', user_uploads_path %>

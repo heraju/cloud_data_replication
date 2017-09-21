@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  node_count: 1
+  fragment_size: 1
+
+two:
+  node_count: 1
+  fragment_size: 1

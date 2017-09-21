@@ -1,0 +1,29 @@
+<%= form_for @user_upload, html: { multipart: true } do |f| %>
+  <% if @user_upload.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user_upload.errors.count, "error") %> prohibited this user_upload from being saved:</h2>
+
+      <ul>
+      <% @user_upload.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :chose_file %><br>
+    <%= f.file_field :file %>
+    <%= f.hidden_field :user_id, :value => current_user.id %>
+  </div>
+  <div class="field">
+    <%= f.label :rc_type %><br>
+    <%= f.radio_button :rc_type, 0, :checked => true %> LMM<br>
+    <%= f.radio_button :rc_type, 1 %> GMM<br>
+    <%= f.radio_button :rc_type, 2 %> DRPA<br>
+    <%= f.radio_button :rc_type, 3 %> DROPS<br>
+    <%= f.radio_button :rc_type, 4 %> Greedy<br>
+  <div class="actions">
+     <%= f.submit :upload,  class: "btn btn-success navbar-btn" %>
+  </div>
+<% end %>

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Node count:</strong>
+  <%= @setting.node_count %>
+</p>
+
+<p>
+  <strong>Fragment size:</strong>
+  <%= @setting.fragment_size %>
+</p>
+
+<%= link_to 'Edit', edit_setting_path(@setting) %> |
+<%= link_to 'Back', settings_path %>
