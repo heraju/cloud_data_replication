@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'pg'
 # Use SCSS for stylesheets
 
 # Use Uglifier as compressor for JavaScript assets
@@ -43,5 +43,5 @@ gem 'sass-rails', '~> 4.0.3'
 gem 'bootstrap-switch-rails'
 gem 'bootstrap_sb_admin_base_v2'
 gem 'carrierwave', '~> 1.0'
-gem 'pry-rails'
+#gem 'pry-rails'
 
