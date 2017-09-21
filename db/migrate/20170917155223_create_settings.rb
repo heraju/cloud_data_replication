@@ -6,6 +6,6 @@ class CreateSettings < ActiveRecord::Migration
 
       t.timestamps
     end
-    Settings.create(node_count: 5, fragment_size: 5)
+    Setting.create(node_count: 5, fragment_size: 5)
   end
 end
