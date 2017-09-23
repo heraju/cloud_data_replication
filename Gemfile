@@ -44,4 +44,4 @@ gem 'bootstrap-switch-rails'
 gem 'bootstrap_sb_admin_base_v2'
 gem 'carrierwave', '~> 1.0'
 #gem 'pry-rails'
-
+gem 'rails_12factor', group: :production
