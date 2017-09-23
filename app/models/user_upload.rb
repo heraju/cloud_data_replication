@@ -82,7 +82,7 @@ class UserUpload < ActiveRecord::Base
       encrypted_fragment = encrypt_data(fragments[index])
       tmp_file = create_tmp_file(encrypted_fragment)
       Fragment.create(node_id: server.id, user_upload_id: id, order_id: index, fragment: tmp_file)
-      File.delete('tmp/uploads/tmp_file.txt')
+      File.delete('tmp/tmp_file.txt')
     end
   end
 
@@ -97,7 +97,7 @@ class UserUpload < ActiveRecord::Base
       tmp_file = create_tmp_file(fragment.fragment.file.read)
       new_server = Node.get_random_server(fragment.node_id)
       Fragment.create(node_id: new_server.id, user_upload_id: id, order_id: fragment.order_id, fragment: tmp_file)
-      File.delete('tmp/uploads/tmp_file.txt')
+      File.delete('tmp/tmp_file.txt')
     end
   end
 
