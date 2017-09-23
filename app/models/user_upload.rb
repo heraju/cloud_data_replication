@@ -87,7 +87,7 @@ class UserUpload < ActiveRecord::Base
   end
 
   def create_tmp_file(encrypted_fragment)
-    file = File.open("#{Rails.root}/tmp/uploads/tmp_file.txt", 'wb')
+    file = File.open("tmp/tmp_file.txt", 'wb')
     file.puts(encrypted_fragment)
     file
   end
