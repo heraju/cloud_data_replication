@@ -123,7 +123,7 @@ class UserUpload < ActiveRecord::Base
       data << decrypt_data(fragment.fragment.file.read)
     end
     file_data = data.join(' ')
-    file = File.open("tmp/downloads/#{Time.now.to_s}_#{self.file.file.filename}", 'wb')
+    file = File.open("tmp/#{Time.now.to_s}_#{self.file.file.filename}", 'wb')
     file.puts(file_data)
     file
   end
