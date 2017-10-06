@@ -1,6 +1,7 @@
 require 'rc4'
 class UserUpload < ActiveRecord::Base
-  has_many :fragments
+  has_many :fragments, dependent: :destroy
+  validates :file, :presence => true
   mount_uploader :file, DataUploader
   serialize :file, JSON
   belongs_to :user

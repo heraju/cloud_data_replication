@@ -66,6 +66,12 @@ class SettingsController < ApplicationController
     redirect_to :back
   end
 
+  def clear_data
+    UserUpload.all.destroy_all
+    Download.all.destroy_all
+    redirect_to :back
+  end
+
   def drpa_cache
     drpa_fragments = UserUpload.where(rc_type: 2)
     if drpa_fragments

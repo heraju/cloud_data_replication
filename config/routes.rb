@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :settings do
     collection do
       get 'drpa_cache'
+      get 'clear_data'
       post 'new_change_server'
       get 'change_server'
       get 'user_activation'
