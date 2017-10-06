@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= f.label :chose_file %><br>
-    <%= f.file_field :file %>
+    <%= f.file_field :file, required: true %>
     <%= f.hidden_field :user_id, :value => current_user.id %>
   </div>
   <div class="field">
