@@ -79,6 +79,20 @@ class UserUpload < ActiveRecord::Base
 
   def upate_data_to_server(servers)
     fragments = create_fragments_of_file_data
+    new_fragments = []
+    if fragments.count != servers.count
+      sub_frags = fragments.count/UserUpload.fragment_size
+      (0..UserUpload.fragment_size).each do |k|
+        i = (k)*sub_frags
+        del = sub_frags + i
+        new_fragments[k] = []
+        (i..del).each do |j|
+          new_fragments[k] << fragments[j]
+        end
+        new_fragments[k] = new_fragments[k].join(" ")
+      end
+      fragments = new_fragments
+    end
     servers.each_with_index do |server, index|
       encrypted_fragment = encrypt_data(fragments[index])
       tmp_file = create_tmp_file(encrypted_fragment)
@@ -114,7 +128,8 @@ class UserUpload < ActiveRecord::Base
     fragments = []
     file_data = file.file.read
     fragment_length = (file_data.length/UserUpload.fragment_size).to_i + 5
-    file_data.scan(/.{1,#{fragment_length}}/)
+    fragment_length = (fragment_length > 100000) ? 100000 : fragment_length
+    file_data.strip.scan(/.{1,#{fragment_length}}/)
   end
 
   def download
