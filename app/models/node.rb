@@ -26,8 +26,9 @@ class Node < ActiveRecord::Base
     servers
   end
 
-  def network_cost
-    (0..cost).each do |i|
+  def network_cost(current_server)
+    rep_cost = Node.nw_cost_bw_servers(self, current_server)
+    (0..rep_cost).each do |i|
       p "waiting #{i}"
       # network costing loop
     end
@@ -51,6 +52,7 @@ class Node < ActiveRecord::Base
   end
 
   def self.nw_cost_bw_servers(server_1, server_2)
+    p "#{server_1.name} --- #{server_2.name}"
     if server_1.cost > server_2.cost
       return server_1.cost - server_2.cost
     else

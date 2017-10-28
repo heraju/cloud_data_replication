@@ -32,7 +32,7 @@ class UserUploadsController < ApplicationController
 
   def download
     @start_time = Time.now
-    @file = @user_upload.download
+    @file = @user_upload.download(current_server)
     @end_time = Time.now
     @total_time = @end_time - @start_time
     @user_upload.post_download(current_server)

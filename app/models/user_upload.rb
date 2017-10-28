@@ -132,10 +132,27 @@ class UserUpload < ActiveRecord::Base
     file_data.strip.scan(/.{1,#{fragment_length}}/)
   end
 
-  def download
+  def download(current_server)
     data = []
-    fragments.order('order_id ASC').each do |fragment|
-      fragment.node.network_cost
+    frag_decider = []
+    uniq_frags = fragments.pluck(:order_id).uniq
+    uniq_frags.each do |order|
+      min_cost = 1000
+      best_fragment = nil
+      fragments.where(order_id: order).each do |fragment|
+        cur_cost = Node.nw_cost_bw_servers(fragment.node, current_server)
+        if cur_cost < min_cost
+          min_cost = cur_cost
+          best_fragment = fragment
+        end
+      end
+      frag_decider << best_fragment
+    end
+    p "_____________________"*20
+    p frag_decider
+    frag_decider.each do |fragment|
+      p "Fragmen -- #{fragment.order_id}"
+      fragment.node.network_cost(current_server)
       data << decrypt_data(fragment.fragment.file.read)
     end
     file_data = data.join(' ')
@@ -145,14 +162,32 @@ class UserUpload < ActiveRecord::Base
   end
 
   def create_minima_cache(server)
-    cost_hash = {}
-    fragments.map{ |f| cost_hash[f.retrival_cost] = f.order_id }
-    minima_value = cost_hash.keys.sort.uniq.first
-    minima_value = cost_hash.keys.sort.uniq.first(2).first if minima_value == 0
+    uniq_frags = fragments.pluck(:order_id).uniq
+    frag_max_cost = {}
+    best_fragment = {}
+    uniq_frags.each do |order|
+      min_cost = 1000
+      fragments.where(order_id: order).each do |fragment|
+        cur_cost = Node.nw_cost_bw_servers(fragment.node, server)
+        if cur_cost < min_cost
+          max_cost = cur_cost
+          frag_max_cost[fragment.order_id] = cur_cost
+          cur_cost = fragment.retrival_cost if cur_cost > fragment.retrival_cost
+          best_fragment[fragment.order_id] = cur_cost
+        end
+      end
+    end
+    order_id = best_fragment.sort_by { |key, value| value }.last[0]
+    minima_values = best_fragment.values.sort
+    minima_value = minima_values[fragments.count%UserUpload.fragment_size]
+    #binding.pry
     cost = server.cost + minima_value
     cost = server.cost - minima_value if cost > 100
     server = Node.find_by(cost: cost)
-    order_id = cost_hash[minima_value]
+    p "***********************"*20
+    p best_fragment
+    p cost
+    p order_id
     fragment = fragments.where(order_id: order_id).first
     tmp_file = create_tmp_file(fragment.fragment.file.read)
     Fragment.create(node_id: server.id, user_upload_id: id, order_id: order_id, fragment: tmp_file)
