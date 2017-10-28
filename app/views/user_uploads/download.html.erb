@@ -4,23 +4,17 @@ End Time: <%= @end_time %><br/>
 Replication Time : <%= @total_time %> ms <br/>
 File : <a href="<%= @user_upload.file %>">download file</a>
 <br/><br/>
-<% if @user_upload.rc_type == 4 %>
-  <strong>Greedy Retrival Path</strong>
-  <br/><br/>
-  <% @user_upload.fragments.each do |fragments| %>
-    <a href="#" class="btn btn-mini btn-info"><%= fragments.node.name %></a> -->
-  <% end %>
-  File
-<% end %>
 
 <% if @user_upload.rc_type == 4 %>
 
-    <strong>Retrival Path</strong>
+    <strong>Greedy Retrival Path</strong>
     <br/><br/>
+    <a href="#" class="btn btn-mini btn-info"><%= current_server.name  %></a> -->
     <% @user_upload.fragments.each do |fragments| %>
       <a href="#" class="btn btn-mini btn-info"><%= fragments.node.name %></a> -->
     <% end %>
-    File
+    <a href="#" class="btn btn-mini btn-info"><%= current_server.name %></a> --> File
+
 
   <br/>
   <br/>
