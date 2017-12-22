@@ -33,6 +33,7 @@ class UserUploadsController < ApplicationController
   def download
     @start_time = Time.now
     @file = @user_upload.download(current_server)
+    @user_upload.process_drpa_request if @user_upload.rc_type_name == 'DRPA'
     @end_time = Time.now
     @total_time = @end_time - @start_time
     @user_upload.post_download(current_server)

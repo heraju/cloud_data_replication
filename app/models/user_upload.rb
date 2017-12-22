@@ -52,6 +52,14 @@ class UserUpload < ActiveRecord::Base
     end
   end
 
+  def process_drpa_request
+    fragment_count = fragments.count
+    (0..fragment_count).each do |i|
+      p "waiting #{i}"
+      # network costing loop
+    end
+  end
+
   def lmm_request
     servers = Node.get_servers((node.cost - 10), (node.cost + 10), UserUpload.fragment_size)
     upate_data_to_server(servers)
@@ -109,10 +117,12 @@ class UserUpload < ActiveRecord::Base
 
   def create_drpa_cache
     fragments.each do |fragment|
-      tmp_file = create_tmp_file(fragment.fragment.file.read)
-      new_server = Node.get_random_server(fragment.node_id)
-      Fragment.create(node_id: new_server.id, user_upload_id: id, order_id: fragment.order_id, fragment: tmp_file)
-      File.delete('tmp/tmp_file.txt')
+      if fragments.count <= (UserUpload.fragment_size * Node.count)
+        tmp_file = create_tmp_file(fragment.fragment.file.read)
+        new_server = Node.get_random_server(fragment.node_id)
+        Fragment.create(node_id: new_server.id, user_upload_id: id, order_id: fragment.order_id, fragment: tmp_file)
+        File.delete('tmp/tmp_file.txt')
+      end
     end
   end
 
@@ -152,7 +162,7 @@ class UserUpload < ActiveRecord::Base
     p frag_decider
     frag_decider.each do |fragment|
       p "Fragmen -- #{fragment.order_id}"
-      fragment.node.network_cost(current_server)
+      fragment.node.network_cost(current_server) if rc_type_name != 'Drops'
       data << decrypt_data(fragment.fragment.file.read)
     end
     file_data = data.join(' ')
