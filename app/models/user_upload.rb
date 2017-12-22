@@ -117,7 +117,7 @@ class UserUpload < ActiveRecord::Base
 
   def create_drpa_cache
     fragments.each do |fragment|
-      if fragments.count <= (UserUpload.fragment_size * Node.count)
+      if fragments.count < (UserUpload.fragment_size * Node.count)
         tmp_file = create_tmp_file(fragment.fragment.file.read)
         new_server = Node.get_random_server(fragment.node_id)
         Fragment.create(node_id: new_server.id, user_upload_id: id, order_id: fragment.order_id, fragment: tmp_file)
